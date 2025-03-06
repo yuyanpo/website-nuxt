@@ -7,25 +7,18 @@ settings:
 importers:
 
   .:
-    dependencies:
-      '@unocss/reset':
-        specifier: 66.1.0-beta.3
-        version: 66.1.0-beta.3
+    devDependencies:
+      '@unocss/nuxt':
+        specifier: ^66.1.0-beta.3
+        version: 66.1.0-beta.3(magicast@0.3.5)(postcss@8.5.3)(vite@6.2.0(@types/node@22.13.9)(jiti@2.4.2)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.2))(webpack@5.98.0)
       nuxt:
         specifier: ^3.15.4
         version: 3.15.4(@parcel/watcher@2.5.1)(@types/node@22.13.9)(db0@0.3.1)(ioredis@5.6.0)(magicast@0.3.5)(rollup@4.34.9)(terser@5.39.0)(typescript@5.8.2)(vite@6.2.0(@types/node@22.13.9)(jiti@2.4.2)(terser@5.39.0)(yaml@2.7.0))(yaml@2.7.0)
-      vue:
-        specifier: ^3.5.13
-        version: 3.5.13(typescript@5.8.2)
-      vue-router:
-        specifier: ^4.5.0
-        version: 4.5.0(vue@3.5.13(typescript@5.8.2))
-    devDependencies:
-      '@unocss/nuxt':
-        specifier: 66.1.0-beta.3
-        version: 66.1.0-beta.3(magicast@0.3.5)(postcss@8.5.3)(vite@6.2.0(@types/node@22.13.9)(jiti@2.4.2)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.2))(webpack@5.98.0)
+      typescript:
+        specifier: ^5.8.2
+        version: 5.8.2
       unocss:
-        specifier: 66.1.0-beta.3
+        specifier: ^66.1.0-beta.3
         version: 66.1.0-beta.3(@unocss/webpack@66.1.0-beta.3(webpack@5.98.0))(postcss@8.5.3)(vite@6.2.0(@types/node@22.13.9)(jiti@2.4.2)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.2))
 
 packages:
@@ -717,8 +710,8 @@ packages:
   '@redocly/ajv@8.11.2':
     resolution: {integrity: sha512-io1JpnwtIcvojV7QKDUSIuMN/ikdOUd1ReEnUnMKGfDVridQZ31J0MmIuqwuRjWDZfmvr+Q0MqCcfHM2gTivOg==}
 
-  '@redocly/config@0.22.0':
-    resolution: {integrity: sha512-gAy93Ddo01Z3bHuVdPWfCwzgfaYgMdaZPcfL7JZ7hWJoK9V0lXDbigTWkhiPFAaLWzbOJ+kbUQG1+XwIm0KRGQ==}
+  '@redocly/config@0.22.1':
+    resolution: {integrity: sha512-1CqQfiG456v9ZgYBG9xRQHnpXjt8WoSnDwdkX6gxktuK69v2037hTAR1eh0DGIqpZ1p4k82cGH8yTNwt7/pI9g==}
 
   '@redocly/openapi-core@1.33.0':
     resolution: {integrity: sha512-MUB1jPxYX2NmgiobICcvyrkSbPSaGAb/P/MsxSW+UT9hxpQvDCX81bstGg68BcKIdeFvVRKcoyG4xiTgDOEBfQ==}
@@ -4252,12 +4245,12 @@ snapshots:
       require-from-string: 2.0.2
       uri-js-replace: 1.0.1
 
-  '@redocly/config@0.22.0': {}
+  '@redocly/config@0.22.1': {}
 
   '@redocly/openapi-core@1.33.0(supports-color@9.4.0)':
     dependencies:
       '@redocly/ajv': 8.11.2
-      '@redocly/config': 0.22.0
+      '@redocly/config': 0.22.1
       colorette: 1.4.0
       https-proxy-agent: 7.0.6(supports-color@9.4.0)
       js-levenshtein: 1.1.6
