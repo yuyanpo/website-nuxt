@@ -12,6 +12,7 @@
         <NuxtLink to="/services" class="text-gray-700 hover:text-teal-600 transition-colors">服务内容</NuxtLink>
         <NuxtLink to="/cases" class="text-gray-700 hover:text-teal-600 transition-colors">案例展示</NuxtLink>
         <NuxtLink to="/contact" class="text-gray-700 hover:text-teal-600 transition-colors">联系我们</NuxtLink>
+        <NuxtLink to="/admin" class="text-gray-700 hover:text-teal-600 transition-colors">管理</NuxtLink>
       </div>
     </nav>
   </header>
