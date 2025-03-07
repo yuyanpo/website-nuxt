@@ -23,4 +23,10 @@ export default defineNuxtConfig({
     // layoutTransition: { name: 'layout', mode: 'out-in' },
     pageTransition: { name: 'page', mode: 'out-in' },
   },
+  runtimeConfig: {
+    session: {
+      name: 'ncw-sess',
+      password: process.env.NUXT_SESSION_PASSWORD || '',
+    },
+  },
 })
