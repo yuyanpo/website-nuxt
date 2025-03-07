@@ -1,67 +1,73 @@
 <template>
-  <footer class="bg-gray-800 text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+  <footer class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-4 gap-8">
+        <!-- 公司信息 -->
         <div>
-          <h3 class="text-lg font-bold mb-4">优秀企业</h3>
+          <div class="mb-4">
+            <Logo dark />
+          </div>
           <p class="text-gray-400 mb-4">
-            专注于为企业提供全方位的解决方案，助力企业发展。
+            专注于提供创新科技解决方案，赋能企业数字化转型。
           </p>
-          <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <span class="i-carbon-logo-wechat text-xl"></span>
+        </div>
+        
+        <!-- 快速链接 -->
+        <div>
+          <h3 class="font-bold text-lg mb-4">快速链接</h3>
+          <ul class="space-y-2">
+            <li><NuxtLink to="/" class="text-gray-400 hover:text-teal-400">首页</NuxtLink></li>
+            <li><NuxtLink to="/about" class="text-gray-400 hover:text-teal-400">关于我们</NuxtLink></li>
+            <li><NuxtLink to="/services" class="text-gray-400 hover:text-teal-400">服务内容</NuxtLink></li>
+            <li><NuxtLink to="/cases" class="text-gray-400 hover:text-teal-400">案例展示</NuxtLink></li>
+            <li><NuxtLink to="/contact" class="text-gray-400 hover:text-teal-400">联系我们</NuxtLink></li>
+          </ul>
+        </div>
+        
+        <!-- 联系方式 -->
+        <div>
+          <h3 class="font-bold text-lg mb-4">联系我们</h3>
+          <ul class="space-y-2">
+            <li class="flex items-center gap-2">
+              <div class="i-carbon-location text-teal-400"></div>
+              <span class="text-gray-400">上海市浦东新区张江高科技园区</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <div class="i-carbon-email text-teal-400"></div>
+              <span class="text-gray-400">contact@example.com</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <div class="i-carbon-phone text-teal-400"></div>
+              <span class="text-gray-400">021-12345678</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- 社交媒体 -->
+        <div>
+          <h3 class="font-bold text-lg mb-4">关注我们</h3>
+          <div class="flex gap-4">
+            <a href="#" class="text-teal-400 hover:text-teal-300 text-2xl">
+              <div class="i-carbon-logo-wechat"></div>
             </a>
-            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <span class="i-carbon-logo-linkedin text-xl"></span>
+            <a href="#" class="text-teal-400 hover:text-teal-300 text-2xl">
+              <div class="i-carbon-logo-weibo"></div>
             </a>
-            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <span class="i-carbon-logo-twitter text-xl"></span>
+            <a href="#" class="text-teal-400 hover:text-teal-300 text-2xl">
+              <div class="i-carbon-logo-linkedin"></div>
             </a>
           </div>
         </div>
-        
-        <div>
-          <h3 class="text-lg font-bold mb-4">服务</h3>
-          <ul class="space-y-2">
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">数字化转型</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">市场营销</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">技术开发</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">数据分析</a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h3 class="text-lg font-bold mb-4">公司</h3>
-          <ul class="space-y-2">
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">关于我们</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">我们的团队</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">新闻中心</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">加入我们</a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h3 class="text-lg font-bold mb-4">联系我们</h3>
-          <ul class="space-y-2 text-gray-400">
-            <li class="flex items-start">
-              <span class="i-carbon-location-filled mr-2 mt-1 flex-shrink-0"></span>
-              <span>北京市朝阳区建国路88号</span>
-            </li>
-            <li class="flex items-start">
-              <span class="i-carbon-phone-filled mr-2 mt-1 flex-shrink-0"></span>
-              <span>+86 10 8888 7777</span>
-            </li>
-            <li class="flex items-start">
-              <span class="i-carbon-email mr-2 mt-1 flex-shrink-0"></span>
-              <span>contact@excellentcompany.com</span>
-            </li>
-          </ul>
-        </div>
       </div>
       
-      <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-400">
-        <p>© 2023 优秀企业. 保留所有权利.</p>
+      <!-- 版权信息 -->
+      <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+        <p>© {{ new Date().getFullYear() }} 公司名称. 保留所有权利.</p>
       </div>
     </div>
   </footer>
 </template>
+<script setup>
+// 可以添加组件特有的逻辑
+const currentYear = new Date().getFullYear()
+</script>

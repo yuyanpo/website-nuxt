@@ -1,5 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  compatibilityDate: '2025-03-06',
+  devtools: { enabled: true },
+  modules: [
+    '@unocss/nuxt'
+  ],
+  css: [
+    '@unocss/reset/tailwind.css',
+    '~/assets/css/transitions.css', // 添加过渡样式
+  ],
   app: {
     head: {
       link: [
@@ -12,13 +21,8 @@ export default defineNuxtConfig({
         { name: 'description', content: 'Nuxt.js project' },
       ],
     },
+    // 配置默认布局
+    // layoutTransition: { name: 'layout', mode: 'out-in' },
+    pageTransition: { name: 'page', mode: 'out-in' },
   },
-  modules: [
-    '@unocss/nuxt',
-  ],
-  css: [
-    '@unocss/reset/tailwind.css'
-  ],
-  compatibilityDate: '2025-03-06',
-  devtools: { enabled: false },
 })

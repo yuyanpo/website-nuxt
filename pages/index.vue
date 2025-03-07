@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- 导航栏 -->
-    <NavBar />
-    
     <!-- 英雄区域 -->
     <HeroSection />
     
@@ -17,9 +14,6 @@
     
     <!-- 联系我们 -->
     <ContactSection />
-    
-    <!-- 页脚 -->
-    <FooterSection />
   </div>
 </template>
 

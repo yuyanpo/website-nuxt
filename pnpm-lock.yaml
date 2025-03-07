@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@iconify-json/carbon':
+        specifier: ^1.2.8
+        version: 1.2.8
       '@unocss/nuxt':
         specifier: ^66.1.0-beta.3
         version: 66.1.0-beta.3(magicast@0.3.5)(postcss@8.5.3)(vite@6.2.0(@types/node@22.13.9)(jiti@2.4.2)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.2))(webpack@5.98.0)
@@ -479,6 +482,9 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@iconify-json/carbon@1.2.8':
+    resolution: {integrity: sha512-6xh4YiFBz6qoSnB3XMe23WvjTJroDFXB17J1MbiT7nATFe+70+em1acRXr8hgP/gYpwFMHFc4IvjA/IPTPnTzg==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -3848,6 +3854,10 @@ snapshots:
 
   '@esbuild/win32-x64@0.25.0':
     optional: true
+
+  '@iconify-json/carbon@1.2.8':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify/types@2.0.0': {}
 
