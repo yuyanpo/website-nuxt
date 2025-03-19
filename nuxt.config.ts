@@ -1,16 +1,13 @@
+import process from 'node:process'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2025-03-06',
-  devtools: { enabled: true },
   modules: [
     '@unocss/nuxt',
     '@nuxt/eslint',
-    'nuxt-auth-utils'
+    'nuxt-auth-utils',
   ],
-  css: [
-    '@unocss/reset/tailwind.css',
-    '~/assets/css/transitions.css', // 添加过渡样式
-  ],
+  devtools: { enabled: true },
   app: {
     head: {
       link: [
@@ -27,12 +24,17 @@ export default defineNuxtConfig({
     // layoutTransition: { name: 'layout', mode: 'out-in' },
     pageTransition: { name: 'page', mode: 'out-in' },
   },
+  css: [
+    '@unocss/reset/tailwind.css',
+    '~/assets/css/transitions.css', // 添加过渡样式
+  ],
   runtimeConfig: {
     session: {
       name: 'ncw-sess',
       password: process.env.NUXT_SESSION_PASSWORD || '',
     },
   },
+  compatibilityDate: '2025-03-06',
 
   eslint: {
     config: {
