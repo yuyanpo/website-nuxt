@@ -2,7 +2,11 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-03-06',
   devtools: { enabled: true },
-  modules: ['@unocss/nuxt', 'nuxt-auth-utils'],
+  modules: [
+    '@unocss/nuxt',
+    '@nuxt/eslint',
+    'nuxt-auth-utils'
+  ],
   css: [
     '@unocss/reset/tailwind.css',
     '~/assets/css/transitions.css', // 添加过渡样式
@@ -27,6 +31,15 @@ export default defineNuxtConfig({
     session: {
       name: 'ncw-sess',
       password: process.env.NUXT_SESSION_PASSWORD || '',
+    },
+  },
+
+  eslint: {
+    config: {
+      standalone: false,
+      nuxt: {
+        sortConfigKeys: true,
+      },
     },
   },
 })
