@@ -1,4 +1,5 @@
 import process from 'node:process'
+import { appDescription, appKeywords } from './constants'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -16,8 +17,8 @@ export default defineNuxtConfig({
       ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'keywords', content: 'Nuxt.js, Vue.js, JavaScript, TypeScript, SEO' },
-        { name: 'description', content: 'Nuxt.js project' },
+        { name: 'keywords', content: appKeywords },
+        { name: 'description', content: appDescription },
       ],
     },
     // 配置默认布局

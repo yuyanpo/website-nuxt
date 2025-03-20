@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import { appName } from './constants'
+
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? `${titleChunk} - ${appName}` : appName
+  },
+})
+</script>
+
 <template>
   <NuxtLayout>
     <NuxtPage />
@@ -5,13 +15,15 @@
 </template>
 
 <style>
-html {
-  scroll-behavior: smooth;
+html,
+body,
+#__nuxt {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  color: #333;
-  line-height: 1.6;
+html.dark {
+  color-scheme: dark;
 }
 </style>
