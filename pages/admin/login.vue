@@ -4,6 +4,8 @@ definePageMeta({
   middleware: ['admin-auth'],
 })
 
+useHead({ title: 'Login' })
+
 const { fetch: refreshSession } = useUserSession()
 const username = ref('admin')
 const password = ref('admin1234')
@@ -60,7 +62,7 @@ async function handleLogin() {
               v-model="username"
               class="flex-1 border-none p-2 text-sm outline-none"
               type="text"
-              placeholder="请输入用户名"
+              placeholder="enter your email"
               required
             >
           </div>
@@ -75,7 +77,7 @@ async function handleLogin() {
               v-model="password"
               class="flex-1 border-none p-2 text-sm outline-none"
               :type="showPassword ? 'text' : 'password'"
-              placeholder="请输入密码"
+              placeholder="enter your password"
               required
             >
             <div
