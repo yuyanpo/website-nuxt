@@ -16,11 +16,12 @@ pnpm dev
 
 ## Todo
 
-- [] add `floating-vue`
-- [] User
-  - [] main page design
-  - [] add some animations
-  - [] using Three.js to render the model
-- [] Admin
-  - [] layout page design
-  - [] CRUD for news & products
+- [ ] add `floating-vue`
+- [ ] User
+  - [ ] main page design
+  - [ ] add some animations
+  - [ ] using Three.js to render the model
+- [ ] Admin
+  - [x] login page design
+  - [ ] layout page design
+  - [ ] CRUD for news & products
