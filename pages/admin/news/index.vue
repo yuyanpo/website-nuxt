@@ -1,109 +1,7 @@
-<template>
-  <div class="news-management">
-    <div class="page-header">
-      <h1>新闻管理</h1>
-      <button class="create-btn" @click="navigateToCreate">
-        <div class="i-carbon:add w-18px h-18px mr-1" />
-        创建新闻
-      </button>
-    </div>
-
-    <div class="filter-bar">
-      <div class="search-box">
-        <input type="text" v-model="searchKeyword" placeholder="搜索标题..." />
-        <div class="i-carbon:search w-20px h-20px" />
-      </div>
-      <div class="filter-box">
-        <select v-model="categoryFilter">
-          <option value="">全部分类</option>
-          <option value="company">公司新闻</option>
-          <option value="industry">行业资讯</option>
-          <option value="product">产品动态</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="news-table">
-      <table>
-        <thead>
-          <tr>
-            <th style="width: 60px">ID</th>
-            <th style="width: 100px">封面</th>
-            <th style="width: 35%">标题</th>
-            <th>分类</th>
-            <th>发布日期</th>
-            <th>状态</th>
-            <th style="width: 150px">操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="news in filteredNews" :key="news.id">
-            <td>{{ news.id }}</td>
-            <td>
-              <div class="news-cover" :style="`background-image: url(${news.cover})`"></div>
-            </td>
-            <td class="news-title">{{ news.title }}</td>
-            <td>
-              <span class="category-tag" :class="news.category">
-                {{ getCategoryName(news.category) }}
-              </span>
-            </td>
-            <td>{{ formatDate(news.publishDate) }}</td>
-            <td>
-              <span class="status-badge" :class="news.status">
-                {{ news.status === 'published' ? '已发布' : '草稿' }}
-              </span>
-            </td>
-            <td>
-              <div class="action-buttons">
-                <button class="view-btn" @click="viewNews(news.id)">
-                  <div class="i-carbon:view w-16px h-16px" />
-                </button>
-                <button class="edit-btn" @click="editNews(news.id)">
-                  <div class="i-carbon:edit w-16px h-16px" />
-                </button>
-                <button class="delete-btn" @click="confirmDelete(news)">
-                  <div class="i-carbon:trash-can w-16px h-16px" />
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr v-if="filteredNews.length === 0">
-            <td colspan="7" class="no-data">暂无数据</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 分页 -->
-    <div class="pagination">
-      <button :disabled="currentPage === 1" @click="currentPage--">
-        <div class="i-carbon:chevron-left w-16px h-16px" />
-      </button>
-      <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
-      <button :disabled="currentPage === totalPages" @click="currentPage++">
-        <div class="i-carbon:chevron-right w-16px h-16px" />
-      </button>
-    </div>
-
-    <!-- 删除确认对话框 -->
-    <div v-if="showDeleteConfirm" class="delete-confirm-modal">
-      <div class="modal-content">
-        <h3>确认删除</h3>
-        <p>您确定要删除新闻 <strong>"{{ newsToDelete?.title }}"</strong> 吗？此操作无法撤销。</p>
-        <div class="modal-actions">
-          <button class="cancel-btn" @click="showDeleteConfirm = false">取消</button>
-          <button class="confirm-btn" @click="deleteNews">确认删除</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup>
 definePageMeta({
   layout: 'admin',
-  middleware: ['admin-auth']
+  middleware: ['admin-auth'],
 })
 
 // 状态变量
@@ -117,25 +15,28 @@ const pageSize = 10
 
 // 从API获取新闻数据
 const { data: newsData, refresh: refreshNews } = await useFetch('/api/admin/news', {
-  headers: useRequestHeaders(['cookie'])
+  headers: useRequestHeaders(['cookie']),
 })
 
 // 过滤新闻数据
 const filteredNews = computed(() => {
   let result = [...newsData.value]
-  
+
+  // 过滤掉无效ID的新闻
+  result = result.filter(item => item && item.id && item.id !== 'null' && item.id !== 'undefined')
+
   // 搜索过滤
   if (searchKeyword.value) {
-    result = result.filter(item => 
-      item.title.toLowerCase().includes(searchKeyword.value.toLowerCase())
+    result = result.filter(item =>
+      item.title.toLowerCase().includes(searchKeyword.value.toLowerCase()),
     )
   }
-  
+
   // 分类过滤
   if (categoryFilter.value) {
     result = result.filter(item => item.category === categoryFilter.value)
   }
-  
+
   // 分页
   const start = (currentPage.value - 1) * pageSize
   const end = start + pageSize
@@ -145,79 +46,83 @@ const filteredNews = computed(() => {
 // 计算总页数
 const totalPages = computed(() => {
   let filteredData = [...newsData.value]
-  
+
+  // 过滤掉无效ID的新闻
+  filteredData = filteredData.filter(item => item && item.id && item.id !== 'null' && item.id !== 'undefined')
+
   if (searchKeyword.value) {
-    filteredData = filteredData.filter(item => 
-      item.title.toLowerCase().includes(searchKeyword.value.toLowerCase())
+    filteredData = filteredData.filter(item =>
+      item.title.toLowerCase().includes(searchKeyword.value.toLowerCase()),
     )
   }
-  
+
   if (categoryFilter.value) {
     filteredData = filteredData.filter(item => item.category === categoryFilter.value)
   }
-  
+
   return Math.ceil(filteredData.length / pageSize) || 1
 })
 
 // 获取分类名称
-const getCategoryName = (category) => {
+function getCategoryName(category) {
   const categoryMap = {
-    'company': '公司新闻',
-    'industry': '行业资讯',
-    'product': '产品动态'
+    company: '公司新闻',
+    industry: '行业资讯',
+    product: '产品动态',
   }
   return categoryMap[category] || '未分类'
 }
 
 // 格式化日期
-const formatDate = (dateString) => {
+function formatDate(dateString) {
   const date = new Date(dateString)
   return date.toLocaleDateString('zh-CN')
 }
 
 // 查看新闻
-const viewNews = (id) => {
-  if (!id) {
-    console.error('无效的新闻ID');
-    return;
+function viewNews(id) {
+  if (!id || id === 'null' || id === 'undefined') {
+    console.error('无效的新闻ID:', id)
+    return
   }
   router.push(`/admin/news/view/${id}`)
 }
 
-const editNews = (id) => {
-  if (!id) {
-    console.error('无效的新闻ID');
-    return;
+function editNews(id) {
+  if (!id || id === 'null' || id === 'undefined') {
+    console.error('无效的新闻ID:', id)
+    return
   }
   router.push(`/admin/news/edit/${id}`)
 }
 
 // 确认删除
-const confirmDelete = (news) => {
+function confirmDelete(news) {
   newsToDelete.value = news
   showDeleteConfirm.value = true
 }
 
 // 删除新闻
-const deleteNews = async () => {
+async function deleteNews() {
   const id = newsToDelete.value?.id
   if (!id) {
     console.error('删除操作缺少有效ID')
     return
   }
   try {
-    await $fetch(`/api/news/${id}`, {
-      method: 'DELETE'
+    await $fetch(`/api/admin/news/${id}`, {
+      method: 'DELETE',
     })
     await refreshNews()
     showDeleteConfirm.value = false
-  } catch (error) {
+  }
+  catch (error) {
     console.error('删除新闻失败:', error)
   }
 }
 
 // 跳转到创建新闻
-const navigateToCreate = () => {
+function navigateToCreate() {
   router.push('/admin/news/create')
 }
 
@@ -226,6 +131,132 @@ watch([searchKeyword, categoryFilter], () => {
   currentPage.value = 1
 })
 </script>
+
+<template>
+  <div class="news-management">
+    <div class="page-header">
+      <h1>新闻管理</h1>
+      <button class="create-btn" @click="navigateToCreate">
+        <div class="i-carbon:add mr-1 h-18px w-18px" />
+        创建新闻
+      </button>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-box">
+        <input v-model="searchKeyword" type="text" placeholder="搜索标题...">
+        <div class="i-carbon:search h-20px w-20px" />
+      </div>
+      <div class="filter-box">
+        <select v-model="categoryFilter">
+          <option value="">
+            全部分类
+          </option>
+          <option value="company">
+            公司新闻
+          </option>
+          <option value="industry">
+            行业资讯
+          </option>
+          <option value="product">
+            产品动态
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="news-table">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 60px">
+              ID
+            </th>
+            <th style="width: 100px">
+              封面
+            </th>
+            <th style="width: 35%">
+              标题
+            </th>
+            <th>分类</th>
+            <th>发布日期</th>
+            <th>状态</th>
+            <th style="width: 150px">
+              操作
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="news in filteredNews" :key="news.id">
+            <td>{{ news.id }}</td>
+            <td>
+              <div class="news-cover" :style="`background-image: url(${news.cover})`" />
+            </td>
+            <td class="news-title">
+              {{ news.title }}
+            </td>
+            <td>
+              <span class="category-tag" :class="news.category">
+                {{ getCategoryName(news.category) }}
+              </span>
+            </td>
+            <td>{{ formatDate(news.publishDate) }}</td>
+            <td>
+              <span class="status-badge" :class="news.status">
+                {{ news.status === 'published' ? '已发布' : '草稿' }}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button class="view-btn" :disabled="!news.id" @click="viewNews(news.id)">
+                  <div class="i-carbon:view h-16px w-16px" />
+                </button>
+                <button class="edit-btn" :disabled="!news.id" @click="editNews(news.id)">
+                  <div class="i-carbon:edit h-16px w-16px" />
+                </button>
+                <button class="delete-btn" :disabled="!news.id" @click="confirmDelete(news)">
+                  <div class="i-carbon:trash-can h-16px w-16px" />
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr v-if="filteredNews.length === 0">
+            <td colspan="7" class="no-data">
+              暂无数据
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 分页 -->
+    <div class="pagination">
+      <button :disabled="currentPage === 1" @click="currentPage--">
+        <div class="i-carbon:chevron-left h-16px w-16px" />
+      </button>
+      <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
+      <button :disabled="currentPage === totalPages" @click="currentPage++">
+        <div class="i-carbon:chevron-right h-16px w-16px" />
+      </button>
+    </div>
+
+    <!-- 删除确认对话框 -->
+    <div v-if="showDeleteConfirm" class="delete-confirm-modal">
+      <div class="modal-content">
+        <h3>确认删除</h3>
+        <p>您确定要删除新闻 <strong>"{{ newsToDelete?.title }}"</strong> 吗？此操作无法撤销。</p>
+        <div class="modal-actions">
+          <button class="cancel-btn" @click="showDeleteConfirm = false">
+            取消
+          </button>
+          <button class="confirm-btn" @click="deleteNews">
+            确认删除
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .news-management {
@@ -397,17 +428,22 @@ td {
   transition: all 0.3s;
 }
 
-.view-btn:hover {
+.action-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.view-btn:hover:not(:disabled) {
   color: #1890ff;
   border-color: #1890ff;
 }
 
-.edit-btn:hover {
+.edit-btn:hover:not(:disabled) {
   color: #faad14;
   border-color: #faad14;
 }
 
-.delete-btn:hover {
+.delete-btn:hover:not(:disabled) {
   color: #ff4d4f;
   border-color: #ff4d4f;
 }

@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS news (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
+  summary TEXT,
   content TEXT NOT NULL,
   category ENUM('company', 'industry', 'product') NOT NULL,
   cover_url VARCHAR(512),
