@@ -90,7 +90,7 @@ function navigateToUsers() {
 }
 
 function createNews() {
-  navigateTo('/admin/news/create')
+  navigateTo('/admin/article/create')
 }
 
 function manageContent() {

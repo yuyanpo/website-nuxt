@@ -1,88 +1,96 @@
 <script setup>
 definePageMeta({
   layout: 'admin',
-  title: '创建新闻',
   middleware: ['admin-auth'],
 })
 
 const router = useRouter()
+const route = useRoute()
+const newsId = route.params.id
+
+// 检查ID是否有效
+if (!newsId || newsId === 'null' || newsId === 'undefined') {
+  console.error('无效的新闻ID:', newsId)
+  throw createError({ statusCode: 400, statusMessage: '无效的新闻ID' })
+}
+
+// 加载现有新闻数据
+const { data: newsData, pending: loading } = await useLazyFetch(`/api/admin/article/${newsId}`, {
+  headers: useRequestHeaders(['cookie']),
+})
 
 // 表单数据
 const newsForm = ref({
+  id: newsId,
   title: '',
   summary: '',
   content: '',
   category: '',
   status: 'draft',
-  publishDate: new Date().toISOString().slice(0, 16),
-  cover: '',
-  tags: [],
-  seoTitle: '',
-  seoDescription: '',
+  publishDate: new Date().toISOString(),
 })
 
 // 状态管理
 const isSaving = ref(false)
-const errors = ref({})
 
 // 表单验证
 const isFormValid = computed(() => {
   return newsForm.value.title.trim()
     && newsForm.value.content.trim()
     && newsForm.value.category
-    && Object.keys(errors.value).length === 0
 })
 
-// 方法
+// 监听数据加载完成，初始化表单
+watch(newsData, (data) => {
+  if (data) {
+    newsForm.value = {
+      id: data.id,
+      title: data.title || '',
+      summary: data.summary || '',
+      content: data.content || '',
+      category: data.category || '',
+      status: data.status || 'draft',
+      publishDate: data.publishDate || new Date().toISOString(),
+    }
+  }
+}, { immediate: true })
+
 function goBack() {
-  router.push('/admin/news')
+  router.push('/admin/article')
 }
 
-function validateForm() {
-  errors.value = {}
-
-  if (!newsForm.value.title.trim()) {
-    errors.value.title = '请输入新闻标题'
-  }
-
-  if (!newsForm.value.category) {
-    errors.value.category = '请选择新闻分类'
-  }
-
-  if (!newsForm.value.content.trim()) {
-    errors.value.content = '请输入新闻内容'
-  }
-}
-
-// 保存和发布
 async function saveDraft() {
   newsForm.value.status = 'draft'
   await saveNews()
 }
 
 async function publishNews() {
-  validateForm()
-  if (isFormValid.value) {
-    newsForm.value.status = 'published'
-    await saveNews()
+  if (!isFormValid.value) {
+    console.warn('请填写必填字段')
+    return
   }
+
+  newsForm.value.status = 'published'
+  await saveNews()
 }
 
 async function saveNews() {
+  if (!newsForm.value.title || !newsForm.value.content || !newsForm.value.category) {
+    console.warn('请填写必填字段')
+    return
+  }
+
   isSaving.value = true
   try {
-    // 这里应该调用API保存新闻
-    await $fetch('/api/admin/news', {
-      method: 'POST',
+    await $fetch(`/api/admin/article/${newsId}`, {
+      method: 'PUT',
       body: newsForm.value,
     })
 
-    // 保存成功后跳转
-    router.push('/admin/news')
+    router.push('/admin/article')
   }
   catch (error) {
     console.error('保存失败:', error)
-    // 显示错误提示
   }
   finally {
     isSaving.value = false
@@ -91,25 +99,41 @@ async function saveNews() {
 </script>
 
 <template>
-  <div class="news-create">
+  <div class="news-edit">
     <div class="page-header">
       <div class="header-left">
         <button class="back-btn" @click="goBack">
           <div class="i-carbon:arrow-left h-18px w-18px" />
         </button>
-        <h1>创建新闻</h1>
+        <h1>编辑新闻</h1>
       </div>
       <div class="header-actions">
         <button class="btn-secondary btn" :disabled="isSaving" @click="saveDraft">
           保存草稿
         </button>
         <button class="btn btn-primary" :disabled="isSaving" @click="publishNews">
-          发布
+          更新发布
         </button>
       </div>
     </div>
 
-    <div class="form-container">
+    <div v-if="loading" class="loading">
+      <div class="loading-spinner" />
+      <p>加载中...</p>
+    </div>
+
+    <div v-else-if="!newsData" class="error">
+      <div class="error-icon">
+        <div class="i-carbon:warning h-32px w-32px" />
+      </div>
+      <h3>新闻不存在</h3>
+      <p>找不到指定的新闻，可能已被删除。</p>
+      <button class="btn btn-primary" @click="goBack">
+        返回列表
+      </button>
+    </div>
+
+    <div v-else class="form-container">
       <form @submit.prevent="publishNews">
         <div class="form-group">
           <label class="form-label required">新闻标题</label>
@@ -178,7 +202,7 @@ async function saveNews() {
 </template>
 
 <style scoped>
-.news-create {
+.news-edit {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -260,6 +284,72 @@ async function saveNews() {
 
 .btn-secondary:hover {
   background: #f9fafb;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f4f6;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.error-icon {
+  color: #f59e0b;
+  margin-bottom: 16px;
+}
+
+.error h3 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.error p {
+  margin: 0 0 24px 0;
+  color: #6b7280;
+  font-size: 16px;
 }
 
 .form-container {

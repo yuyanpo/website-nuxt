@@ -10,14 +10,14 @@ const currentRoute = computed(() => {
     return '控制台'
   if (route.path === '/admin/content')
     return '内容管理'
-  if (route.path.includes('/admin/news')) {
-    if (route.path === '/admin/news')
+  if (route.path.includes('/admin/article')) {
+    if (route.path === '/admin/article')
       return '新闻管理'
-    if (route.path.includes('/admin/news/edit'))
+    if (route.path.includes('/admin/article/edit'))
       return '编辑新闻'
-    if (route.path.includes('/admin/news/create'))
+    if (route.path.includes('/admin/article/create'))
       return '创建新闻'
-    if (route.path.includes('/admin/news/view'))
+    if (route.path.includes('/admin/article/view'))
       return '新闻详情'
     return '新闻管理'
   }

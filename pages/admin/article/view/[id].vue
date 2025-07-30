@@ -15,12 +15,12 @@ if (!newsId || newsId === 'null' || newsId === 'undefined') {
 }
 
 // 加载新闻数据
-const { data: newsData, pending: loading } = await useLazyFetch(`/api/admin/news/${newsId}`, {
+const { data: newsData, pending: loading } = await useLazyFetch(`/api/admin/article/${newsId}`, {
   headers: useRequestHeaders(['cookie']),
 })
 
 function goBack() {
-  router.push('/admin/news')
+  router.push('/admin/article')
 }
 
 function editNews() {
@@ -28,7 +28,7 @@ function editNews() {
     console.error('无法编辑：无效的新闻ID')
     return
   }
-  router.push(`/admin/news/edit/${newsId}`)
+  router.push(`/admin/article/edit/${newsId}`)
 }
 
 function previewNews() {
@@ -37,7 +37,7 @@ function previewNews() {
     return
   }
   // 这里可以跳转到前台新闻详情页面
-  window.open(`/news/${newsId}`, '_blank')
+  window.open(`/article/${newsId}`, '_blank')
 }
 
 // 工具方法

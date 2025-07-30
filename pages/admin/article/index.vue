@@ -14,7 +14,7 @@ const newsToDelete = ref(null)
 const pageSize = 10
 
 // 从API获取新闻数据
-const { data: newsData, refresh: refreshNews } = await useFetch('/api/admin/news', {
+const { data: newsData, refresh: refreshNews } = await useFetch('/api/admin/article', {
   headers: useRequestHeaders(['cookie']),
 })
 
@@ -85,7 +85,7 @@ function viewNews(id) {
     console.error('无效的新闻ID:', id)
     return
   }
-  router.push(`/admin/news/view/${id}`)
+  router.push(`/admin/article/view/${id}`)
 }
 
 function editNews(id) {
@@ -93,7 +93,7 @@ function editNews(id) {
     console.error('无效的新闻ID:', id)
     return
   }
-  router.push(`/admin/news/edit/${id}`)
+  router.push(`/admin/article/edit/${id}`)
 }
 
 // 确认删除
@@ -110,7 +110,7 @@ async function deleteNews() {
     return
   }
   try {
-    await $fetch(`/api/admin/news/${id}`, {
+    await $fetch(`/api/admin/article/${id}`, {
       method: 'DELETE',
     })
     await refreshNews()
@@ -123,7 +123,7 @@ async function deleteNews() {
 
 // 跳转到创建新闻
 function navigateToCreate() {
-  router.push('/admin/news/create')
+  router.push('/admin/article/create')
 }
 
 // 监听过滤器变化，重置页码
