@@ -1,4 +1,6 @@
 <script setup>
+import { adminMenus, appName } from '~/constants'
+
 const route = useRoute()
 const { user, clear: clearSession } = useUserSession()
 
@@ -34,97 +36,65 @@ async function handleLogout() {
 <template>
   <div class="min-h-screen flex bg-gray-50">
     <!-- 侧边栏 -->
-    <div class="w-64 flex flex-col border-r border-gray-200 bg-white">
+    <div class="fixed h-screen w-64 flex flex-col border-r border-gray-200 bg-white">
       <!-- Logo区域 -->
-      <div class="border-b border-gray-200 p-6">
+      <div class="border-b border-gray-200 p-3">
         <div class="flex items-center gap-3">
           <div class="h-10 w-10 flex items-center justify-center rounded-xl from-blue-600 to-indigo-600 bg-gradient-to-r">
-            <div class="i-carbon:cube text-xl text-white" />
+            <div class="i-carbon:palm-tree text-xl text-white" />
           </div>
-          <h2 class="text-xl text-gray-900 font-bold">
-            管理系统
+          <h2 class="text-base text-gray-900 font-bold uppercase">
+            {{ appName }}
           </h2>
         </div>
       </div>
 
       <!-- 导航菜单 -->
-      <nav class="flex-1 p-4">
+      <nav class="no-scrollbar flex-1 overflow-y-auto bg-[#f5f5f5] p-2">
+        <!-- 导航菜单 -->
         <ul class="space-y-2">
-          <li>
+          <li v-for="item, index in adminMenus" :key="index">
+            <div v-if="item.separator" class="h-px w-full bg-gray-200" />
             <NuxtLink
-              to="/admin"
-              class="group flex items-center gap-3 rounded-xl px-4 py-3 text-gray-700 transition-colors hover:bg-gray-100"
-              active-class="bg-blue-50 text-blue-700 border-r-2 border-blue-600"
+              v-else
+              :to="item.path"
+              class="group flex items-center gap-2 rounded-md bg-transparent p-2 text-sm text-gray-700 transition-colors hover:bg-[#eaeaea] hover:op-80"
+              active-class="!bg-[#eaeaea]"
             >
-              <div class="i-carbon:dashboard text-lg group-hover:text-blue-600" />
-              <span class="font-medium">控制台</span>
-            </NuxtLink>
-          </li>
-          <li>
-            <NuxtLink
-              to="/admin/news"
-              class="group flex items-center gap-3 rounded-xl px-4 py-3 text-gray-700 transition-colors hover:bg-gray-100"
-              active-class="bg-blue-50 text-blue-700 border-r-2 border-blue-600"
-            >
-              <div class="i-carbon:document-multiple-02 text-lg group-hover:text-blue-600" />
-              <span class="font-medium">新闻管理</span>
-            </NuxtLink>
-          </li>
-          <li>
-            <NuxtLink
-              to="/admin/content"
-              class="group flex items-center gap-3 rounded-xl px-4 py-3 text-gray-700 transition-colors hover:bg-gray-100"
-              active-class="bg-blue-50 text-blue-700 border-r-2 border-blue-600"
-            >
-              <div class="i-carbon:document text-lg group-hover:text-blue-600" />
-              <span class="font-medium">内容管理</span>
+              <div :class="item.icon" />
+              <span class="">{{ item.name }}</span>
             </NuxtLink>
           </li>
         </ul>
       </nav>
 
       <!-- 用户信息 -->
-      <div class="border-t border-gray-200 p-4">
-        <div class="flex items-center gap-3 rounded-xl bg-gray-50 p-3">
-          <div class="h-10 w-10 flex items-center justify-center rounded-full from-gray-400 to-gray-500 bg-gradient-to-r">
-            <div class="i-carbon:user-avatar text-white" />
-          </div>
-          <div class="min-w-0 flex-1">
-            <p class="truncate text-sm text-gray-900 font-medium">
-              {{ user?.name || '管理员' }}
-            </p>
-            <p class="text-xs text-gray-500">
-              系统管理员
-            </p>
-          </div>
-          <button
-            class="rounded-lg p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
-            title="退出登录"
-            @click="handleLogout"
-          >
-            <div class="i-carbon:logout" />
-          </button>
-        </div>
+      <div class="select-none border-t border-gray-200 bg-[#f5f5f5] px-4 py-3 text-center text-xs text-gray-300">
+        <span>&copy; 2025 {{ appName }}</span>
       </div>
     </div>
 
     <!-- 主内容区域 -->
-    <div class="flex flex-1 flex-col">
+    <div class="ml-64 flex flex-1 flex-col">
       <!-- 顶部导航 -->
-      <header class="border-b border-gray-200 bg-white px-6 py-4">
-        <div class="flex items-center justify-between">
+      <header class="h-[65px] flex items-center border-b border-gray-200 bg-white px-5">
+        <div class="w-full flex items-center justify-between">
           <div class="flex items-center gap-3">
             <div class="i-carbon:location text-gray-400" />
             <h1 class="text-lg text-gray-900 font-semibold">
               {{ currentRoute }}
             </h1>
           </div>
-          <div class="flex items-center gap-3">
-            <button class="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600" title="设置">
-              <div class="i-carbon:settings" />
-            </button>
-            <button class="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600" title="通知">
-              <div class="i-carbon:notification" />
+          <div class="flex items-center gap-1">
+            <p class="truncate text-sm text-gray-400">
+              欢迎，{{ user?.name || '管理员' }}
+            </p>
+            <button
+              class="rounded-lg p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
+              title="退出登录"
+              @click="handleLogout"
+            >
+              <div class="i-carbon:logout" />
             </button>
           </div>
         </div>

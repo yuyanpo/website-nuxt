@@ -1,3 +1,30 @@
-export const appName = '卓略互联'
+// @unocss-include
+
+export const appName = 'WEBSITE NUXT'
 export const appKeywords = '卓略互联,卓略,互联'
 export const appDescription = '卓略互联是一家专注于互联网技术的公司，我们提供网站建设、微信小程序开发、APP开发等服务。'
+
+interface AdminMenu {
+  name?: string
+  icon?: string
+  path?: string
+  separator?: boolean
+}
+export const adminMenus: AdminMenu[] = [
+  { name: '管理系统首页', icon: 'i-carbon:home', path: '/admin' },
+  { separator: true },
+  { name: '自定义导航栏', icon: 'i-carbon:sysplex-distributor', path: '/admin' },
+  { name: '单页面管理', icon: 'i-carbon:document-blank', path: '/admin/content' },
+  { separator: true },
+  { name: '商品管理', icon: 'i-carbon:shopping-cart', path: '/admin' },
+  { name: '商品分类', icon: 'i-carbon:shopping-cart-plus', path: '/admin' },
+  { separator: true },
+  { name: '文章管理', icon: 'i-carbon:document', path: '/admin/news' },
+  { name: '文章分类', icon: 'i-carbon:document-add', path: '/admin' },
+  { separator: true },
+  { name: '系统设置', icon: 'i-carbon:settings', path: '/admin' },
+  { name: '广告管理', icon: 'i-carbon:image-reference', path: '/admin' },
+  { name: '用户管理', icon: 'i-carbon:user-multiple', path: '/admin' },
+  { name: '数据备份', icon: 'i-carbon:data-backup', path: '/admin' },
+  { name: '操作记录', icon: 'i-carbon:timer', path: '/admin' },
+]
