@@ -172,9 +172,9 @@ watch([searchKeyword, categoryFilter], () => {
             <th style="width: 60px">
               ID
             </th>
-            <th style="width: 100px">
+            <!-- <th style="width: 100px">
               封面
-            </th>
+            </th> -->
             <th style="width: 35%">
               标题
             </th>
@@ -189,9 +189,9 @@ watch([searchKeyword, categoryFilter], () => {
         <tbody>
           <tr v-for="news in filteredNews" :key="news.id">
             <td>{{ news.id }}</td>
-            <td>
+            <!-- <td>
               <div class="news-cover" :style="`background-image: url(${news.cover})`" />
-            </td>
+            </td> -->
             <td class="news-title">
               {{ news.title }}
             </td>
