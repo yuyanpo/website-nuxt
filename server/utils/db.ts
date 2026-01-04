@@ -1,3 +1,4 @@
+import process from 'node:process'
 import mysql from 'mysql2/promise'
 
 const pool = mysql.createPool({
@@ -8,22 +9,24 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
+  timezone: '+08:00', // 中国时区
 })
 
-export const getConnection = async () => {
+export async function getConnection() {
   const connection = await pool.getConnection()
   return {
     connection,
-    release: () => connection.release()
+    release: () => connection.release(),
   }
 }
 
-export const query = async (sql: string, values?: any[]) => {
+export async function query(sql: string, values?: any[]) {
   const { connection, release } = await getConnection()
   try {
     const [results] = await connection.query(sql, values)
     return results
-  } finally {
+  }
+  finally {
     release()
   }
 }
