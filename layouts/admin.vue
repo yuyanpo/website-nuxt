@@ -1,8 +1,12 @@
-<script setup>
-import { adminMenus, appName } from '~/constants'
+<script setup lang="ts">
+import { adminMenus } from '~/constants'
 
 const route = useRoute()
 const { user, clear: clearSession } = useUserSession()
+const { settings } = useSiteSettings()
+
+// 计算网站名称，带默认值
+const siteName = computed(() => settings.value.siteName || 'WEBSITE NUXT')
 
 // 获取当前路由名称
 const currentRoute = computed(() => {
@@ -44,7 +48,7 @@ async function handleLogout() {
             <div class="i-carbon:palm-tree text-xl text-white" />
           </div>
           <h2 class="text-base text-gray-900 font-bold uppercase">
-            {{ appName }}
+            {{ siteName }}
           </h2>
         </div>
       </div>
@@ -70,7 +74,7 @@ async function handleLogout() {
 
       <!-- 用户信息 -->
       <div class="select-none border-t border-gray-200 bg-[#f5f5f5] px-4 py-3 text-center text-xs text-gray-300">
-        <span>&copy; 2025 {{ appName }}</span>
+        <span>&copy; 2025 {{ siteName }}</span>
       </div>
     </div>
 

@@ -1,10 +1,21 @@
 <script setup lang="ts">
-import { appName } from './constants'
+const { settings, fetchSettings } = useSiteSettings()
 
+// 获取网站设置
+await fetchSettings()
+
+// 动态设置页面标题模板
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - ${appName}` : appName
+    const siteName = settings.value.siteName || 'WEBSITE NUXT'
+    return titleChunk ? `${titleChunk} - ${siteName}` : siteName
   },
+})
+
+// 动态设置 SEO 元数据
+useSeoMeta({
+  keywords: () => settings.value.siteKeywords,
+  description: () => settings.value.siteDescription,
 })
 </script>
 
