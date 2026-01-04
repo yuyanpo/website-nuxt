@@ -87,7 +87,7 @@ async function handleLogout() {
           </div>
           <div class="flex items-center gap-1">
             <p class="truncate text-sm text-gray-400">
-              欢迎，{{ user?.name || '管理员' }}
+              欢迎，{{ user?.nickname || '管理员' }}
             </p>
             <button
               class="rounded-lg p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"

@@ -11,10 +11,14 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint ."
   },
+  "dependencies": {
+    "bcrypt": "^6.0.0"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^4.5.1",
     "@iconify-json/carbon": "^1.2.8",
     "@nuxt/eslint": "^1.1.0",
+    "@types/bcrypt": "^6.0.0",
     "@unocss/eslint-config": "^66.1.0-beta.3",
     "@unocss/nuxt": "^66.1.0-beta.3",
     "eslint": "^9.21.0",

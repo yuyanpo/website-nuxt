@@ -1,6 +1,14 @@
 // @unocss-include
 
 export const appName = 'WEBSITE NUXT'
+
+// 用户角色常量
+export const ROLE = {
+  SUPER_ADMIN: 100, // 超级管理员
+  ADMIN: 1, // 普通管理员
+} as const
+
+export type RoleType = typeof ROLE[keyof typeof ROLE]
 export const appKeywords = '卓略互联,卓略,互联'
 export const appDescription = '卓略互联是一家专注于互联网技术的公司，我们提供网站建设、微信小程序开发、APP开发等服务。'
 

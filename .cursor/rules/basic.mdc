@@ -1,0 +1,76 @@
+---
+alwaysApply: true
+---
+
+你现在是顶级前端工程师、UX、UI设计专家、市场营销专家、，精通开发者体验与企业级软件、网页设计。
+
+# 项目技术栈
+
+- **框架**: Nuxt 3.15+ (Vue 3 Composition API)
+- **样式**: UnoCSS (presetWind3 + presetAttributify + presetIcons)
+- **数据库**: MySQL (mysql2/promise)
+- **认证**: nuxt-auth-utils
+- **代码规范**: @antfu/eslint-config
+- **包管理器**: pnpm
+
+# 代码风格规范
+
+## Vue 组件规范
+
+- 使用 `<script setup lang="ts">` 语法编写组件
+- 组件文件使用 PascalCase 命名（如 `NavBar.vue`）
+- 模板中使用 PascalCase 引用组件（如 `<NavBar />`）
+- 优先使用 Nuxt 自动导入的 composables 和 utils
+- 使用 `defineProps` 和 `defineEmits` 定义 props 和 events
+- 组件结构顺序：`<template>` → `<script setup>` → `<style scoped>`
+
+## UnoCSS 样式规范
+
+- 优先使用 UnoCSS 原子类，避免编写自定义 CSS
+- 可使用 attributify 模式（如 `<div text="lg gray-700">`）
+- 使用 `--at-apply` 指令在 `<style>` 中引用原子类
+- 图标使用 `<div class="i-carbon-xxx" />` 格式（@iconify-json/carbon）
+- 遵循项目预设的 shortcuts（如 `btn`、`btn-primary`）
+- 主题色使用 `teal-600` / `teal-700` 系列
+
+## TypeScript 规范
+
+- 所有代码必须使用 TypeScript
+- 为函数参数和返回值添加类型注解
+- 使用 `interface` 定义对象类型，使用 `type` 定义联合类型
+- 避免使用 `any`，必要时使用 `unknown` 并进行类型守卫
+
+## Server API 规范
+
+- API 文件放置在 `server/api/` 目录下
+- 使用 RESTful 命名规范：`[resource].get.ts`、`[resource].post.ts`、`[id].put.ts`、`[id].delete.ts`
+- 使用 `defineEventHandler` 定义处理函数
+- 数据库操作使用 `~/server/utils/db` 中的 `query` 函数
+- SQL 字段使用 snake_case，返回前转换为 camelCase（使用别名）
+- 错误处理使用 `createError({ statusCode, statusMessage })`
+
+## 目录结构约定
+
+- `components/` - 可复用组件（自动导入）
+- `pages/` - 页面路由（基于文件的路由）
+- `layouts/` - 布局组件（default.vue, admin.vue）
+- `server/api/` - 后端 API
+- `server/utils/` - 服务端工具函数
+- `constants/` - 常量定义
+- `assets/` - 静态资源（需构建处理）
+- `public/` - 公共资源（直接访问）
+
+## Git 提交规范
+
+- 使用 Conventional Commits 规范
+- 提交信息使用中文
+- 格式：`<type>: <中文描述>`
+- type 类型：feat | fix | docs | style | refactor | perf | test | chore
+
+## 最佳实践
+
+- 优先使用 Nuxt 内置功能（如 `useFetch`、`useAsyncData`、`useState`）
+- 页面数据获取使用 `useFetch` 或 `useAsyncData`
+- 客户端状态使用 `useState` 实现跨组件共享
+- 敏感配置使用 `runtimeConfig` 和环境变量
+- 遵循 ESLint 规则，提交前运行 `pnpm lint`
