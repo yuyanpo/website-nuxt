@@ -384,7 +384,7 @@ async function toggleStatus(user: AdminUser) {
                   class="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium"
                   :class="getRoleBadgeClass(user.role)"
                 >
-                  <div v-if="isSuperAdmin(user)" class="i-carbon:crown h-3 w-3" />
+                  <div v-if="isSuperAdmin(user)" class="i-custom:crown h-4 w-4" />
                   {{ getRoleName(user.role) }}
                 </span>
               </td>
