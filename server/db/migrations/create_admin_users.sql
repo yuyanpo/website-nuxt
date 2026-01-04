@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS admin_users (
   INDEX idx_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='管理员用户表';
 
--- 插入初始超级管理员账号
--- 密码: admin1234 (bcrypt hash)
+-- 插入初始管理员账号
 INSERT INTO admin_users (username, password, nickname, role, status) VALUES 
-('admin', '$2b$10$Xa4mVUWipMfGTjKu3.ybMOROJW8UsZyZxZ0xMzAYR.ODAsv6IdXrK', '超级管理员', 100, 1);
+('admin', '$2b$10$Xa4mVUWipMfGTjKu3.ybMOROJW8UsZyZxZ0xMzAYR.ODAsv6IdXrK', '超级管理员', 100, 1),  -- 密码: admin1234
+('user', '$2b$10$2kaAlEXLuN80wCuKQtcDFODlGv8XXwxK9EclAuGHxHlt2YAs5Q7Ga', '普通管理员', 1, 1);    -- 密码: user1234
 
